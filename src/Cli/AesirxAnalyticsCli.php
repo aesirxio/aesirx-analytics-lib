@@ -335,6 +335,9 @@ class AesirxAnalyticsCli
             if ($command[0] == 'datastream') {
                 $class = new \AesirX_Analytics_Store_Datastream_Template();
             }
+            if ($command[0] == 'disabled-block-domains') {
+                $class = new \AesirX_Analytics_Store_Disabled_Block_Domains();
+            }
 
         } else if ($method == "PUT") {
             if ($command[0] == 'revoke') {
