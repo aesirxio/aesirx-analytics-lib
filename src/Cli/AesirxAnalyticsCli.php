@@ -18,18 +18,20 @@ use AesirxAnalytics\AesirxAnalyticsMysqlHelper;
 
 if (defined('JPATH_PLUGINS')) {
     // Joomla detected
-    $folderPath = JPATH_PLUGINS . '/system/aesirx_analytics/src/Mysql';
+    $analyticsFolder = JPATH_PLUGINS . '/system/aesirx_analytics/src/Mysql';
+    $consentFolder = JPATH_PLUGINS . '/system/aesirx_consent/src/Mysql';
 } elseif (defined('WP_PLUGIN_DIR')) {
     // WordPress detected
-    $folderPath = WP_PLUGIN_DIR . '/aesirx-analytics/src/Mysql';
+    $analyticsFolder = WP_PLUGIN_DIR . '/aesirx-analytics/src/Mysql';
+    $consentFolder = WP_PLUGIN_DIR . '/aesirx-consent/src/Mysql';
 }
-
-$files = glob($folderPath . '/*.php');
-
-foreach ($files as $file) {
-    include_once $file;
+$folderPath = is_dir($analyticsFolder) ? $analyticsFolder : $consentFolder;
+if (is_dir($folderPath)) {
+    $files = glob($folderPath . '/*.php');
+    foreach ($files as $file) {
+        include_once $file;
+    }
 }
-
 /**
  * @since 1.0.0
  */
@@ -333,6 +335,9 @@ class AesirxAnalyticsCli
             if ($command[0] == 'datastream') {
                 $class = new \AesirX_Analytics_Store_Datastream_Template();
             }
+            if ($command[0] == 'disabled-block-domains') {
+                $class = new \AesirX_Analytics_Store_Disabled_Block_Domains();
+            }
 
         } else if ($method == "PUT") {
             if ($command[0] == 'revoke') {
@@ -359,6 +364,6 @@ class AesirxAnalyticsCli
 
         $data = $class->aesirx_analytics_mysql_execute($command);  
 
-        return json_encode($data);
+        return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

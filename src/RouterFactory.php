@@ -808,6 +808,21 @@ class RouterFactory
         );
 
         $this->router->addRoute(
+            (new RouteUrl('/disabled-block-domains', function () {
+                return call_user_func(
+                    $this->callback,
+                    array_merge(
+                        [
+                            'disabled-block-domains',
+                            $this->requestBody['disabled_block_domains'] ?? [],
+                        ],
+                        $_POST
+                    )
+                );
+            }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+        );
+
+        $this->router->addRoute(
             (new RouteGroup())
                 ->setSettings(['middleware' => [$permissionCheckMiddleware]])
                 ->setCallback(
