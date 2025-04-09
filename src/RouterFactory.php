@@ -528,6 +528,72 @@ class RouterFactory
                                     }
                                 )
                         );
+
+	                    $this->router->addRoute(
+		                    (new RouteGroup())
+			                    ->setSettings(['prefix' => '/level5'])
+			                    ->setCallback(
+				                    function () {
+					                    $this->router->addRoute(
+						                    (new RouteUrl(
+							                    '/{uuid}/{consent}',
+							                    function (string $uuid, string $consent) {
+								                    return call_user_func(
+									                    $this->callback,
+									                    array_merge (
+										                    [
+											                    'consent',
+											                    'level5',
+											                    'v1',
+											                    '--uuid',
+											                    $uuid,
+											                    'uuid' => $uuid,
+											                    '--consent',
+											                    $consent,
+											                    'consent' => $consent,
+											                    $this->requestBody['ip'] = empty($this->requestBody['ip']) ? $this->router->getRequest(
+											                    )
+											                                                                                              ->getIp() : $this->requestBody['ip']
+										                    ],
+										                    $this->applyIfNotEmpty($this->requestBody, [
+											                    'fingerprint' => 'fingerprint',
+											                    'user_agent' => 'user-agent',
+											                    'device' => 'device',
+											                    'browser_name' => 'browser-name',
+											                    'browser_version' => 'browser-version',
+											                    'lang' => 'lang',
+											                    'url' => 'url',
+											                    'referer' => 'referer',
+											                    'event_name' => 'event-name',
+											                    'event_type' => 'event-type',
+										                    ]),
+										                    $this->applyAttributes()
+									                    )
+								                    );
+							                    }
+						                    ))
+							                    ->setRequestMethods([Request::REQUEST_TYPE_POST])
+					                    );
+					                    $this->router->addRoute(
+						                    (new RouteUrl(
+							                    '/revoke/{visitor_uuid}',
+							                    function (string $visitor_uuid) {
+								                    return call_user_func($this->callback, [
+									                    'revoke',
+									                    'level5',
+									                    'v1',
+									                    '--visitor-uuid',
+									                    $visitor_uuid,
+									                    'visitor_uuid' => $visitor_uuid,
+								                    ]);
+							                    }
+						                    ))
+							                    ->setWhere(['visitor_uuid' => $this->uuidMatch])
+							                    ->setRequestMethods([Request::REQUEST_TYPE_PUT])
+					                    );
+				                    }
+			                    )
+	                    );
                     }
                 )
         );
