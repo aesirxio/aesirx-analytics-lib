@@ -135,7 +135,6 @@ class RouterFactory
                                                                 '--consent',
                                                                 $consent,
                                                                 'consent' => $consent,
-                                                                'level' => '1',
                                                                 $this->requestBody['ip'] = empty($this->requestBody['ip']) ? $this->router->getRequest(
                                                                     )
                                                                         ->getIp() : $this->requestBody['ip']
@@ -552,7 +551,6 @@ class RouterFactory
 											                    '--consent',
 											                    $consent,
 											                    'consent' => $consent,
-																'level' => '5',
 											                    $this->requestBody['ip'] = empty($this->requestBody['ip']) ? $this->router->getRequest(
 											                    )
 											                                                                                              ->getIp() : $this->requestBody['ip']
