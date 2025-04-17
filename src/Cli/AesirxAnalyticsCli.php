@@ -323,6 +323,10 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Add_Consent_Level5();
 						break;
 
+					case 'level6':
+						$class = new \AesirX_Analytics_Add_Consent_Level6();
+						break;
+
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
@@ -354,6 +358,10 @@ class AesirxAnalyticsCli {
 
 					case 'level5':
 						$class = new \AesirX_Analytics_Revoke_Consent_Level5();
+						break;
+
+					case 'level6':
+						$class = new \AesirX_Analytics_Revoke_Consent_Level6();
 						break;
 
 					default:
