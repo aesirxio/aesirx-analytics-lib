@@ -947,6 +947,8 @@ class RouterFactory
                         [
                             'disabled-block-domains',
                             $this->requestBody['disabled_block_domains'] ?? [],
+                            $this->requestBody['list_category'] ?? [],
+                            $this->requestBody['uuid'] ?? "",
                         ],
                         $_POST
                     )
