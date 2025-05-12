@@ -205,6 +205,10 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Get_Total_Consent_Tier();
 						break;
 
+					case 'total-category-by-date':
+						$class = new \AesirX_Analytics_Get_Total_Consent_Category();
+						break;
+
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
