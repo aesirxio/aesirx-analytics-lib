@@ -1016,7 +1016,30 @@ class RouterFactory
                                         array_merge(
                                             [
                                                 'list-consent-statistics',
-                                                'total-category-by-date',
+                                                'total-consent-category',
+                                                'v1',
+                                                '--start',
+                                                $start,
+                                                '--end',
+                                                $end
+                                            ],
+                                            $this->applyListParams($start, $end)
+                                        )
+                                    );
+                                }
+                            ))
+                                ->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+                        $this->router->addRoute(
+                            (new RouteUrl(
+                                '/consents/v1/{start_date}/{end_date}/category-date',
+                                function (string $start, string $end) {
+                                    return call_user_func(
+                                        $this->callback,
+                                        array_merge(
+                                            [
+                                                'list-consent-statistics',
+                                                'total-consent-category-by-date',
                                                 'v1',
                                                 '--start',
                                                 $start,
