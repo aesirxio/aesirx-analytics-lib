@@ -216,6 +216,10 @@ class AesirxAnalyticsCli {
 					case 'total-consent-region':
 						$class = new \AesirX_Analytics_Get_Total_Consent_Region();
 						break;
+				
+					case 'total-consent-override-language':
+						$class = new \AesirX_Analytics_Get_Total_Consent_Override_Language();
+						break;
 					
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
