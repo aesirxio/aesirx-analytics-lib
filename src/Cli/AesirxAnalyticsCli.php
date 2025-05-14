@@ -212,6 +212,10 @@ class AesirxAnalyticsCli {
 					case 'total-consent-category-by-date':
 						$class = new \AesirX_Analytics_Get_Total_Consent_Category_Per_Day();
 						break;
+
+					case 'total-consent-region':
+						$class = new \AesirX_Analytics_Get_Total_Consent_Region();
+						break;
 					
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
