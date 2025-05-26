@@ -355,6 +355,9 @@ class AesirxAnalyticsCli {
 			if ( $command[0] == 'disabled-block-domains' ) {
 				$class = new \AesirX_Analytics_Store_Disabled_Block_Domains();
 			}
+			if ( $command[0] == 'openai-assistant' ) {
+				$class = new \AesirX_Analytics_Openai_Assistant();
+			}
 
 		} else if ( $method == "PUT" ) {
 			if ( $command[0] == 'revoke' ) {
