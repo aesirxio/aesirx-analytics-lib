@@ -1256,11 +1256,25 @@ class RouterFactory
                                     array_merge(
                                         [
                                             'openai-assistant',
+                                            $this->requestBody['message'] ?? [],
                                         ],
                                         $_POST
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+                        $this->router->addRoute(
+                            (new RouteUrl('/openai-assistant/{threadid}/' . $this->router->getRequest()->getHost(), function (string $threadid) {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'openai-assistant',
+                                            'threadid' => $threadid
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
                         foreach (
                             [
