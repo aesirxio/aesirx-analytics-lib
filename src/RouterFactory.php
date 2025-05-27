@@ -1264,13 +1264,12 @@ class RouterFactory
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
                         );
                         $this->router->addRoute(
-                            (new RouteUrl('/openai-assistant/{threadid}/' . $this->router->getRequest()->getHost(), function (string $threadid) {
+                            (new RouteUrl('/openai-assistant', function () {
                                 return call_user_func(
                                     $this->callback,
                                     array_merge(
                                         [
-                                            'openai-assistant',
-                                            'threadid' => $threadid
+                                            'openai-assistant'
                                         ],
                                     )
                                 );
