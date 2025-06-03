@@ -52,8 +52,6 @@ class RouterFactory
         $this->router = (new Router())
             ->setRenderMultipleRoutes(false);
         $this->requestBody = (array)json_decode(file_get_contents('php://input'), true);
-        $host = $this->router->getRequest()->getHost();
-        $host = preg_replace('/^www\./', '', $host);
 
         if (!empty($url)) {
             $this->router->getRequest()
@@ -85,6 +83,7 @@ class RouterFactory
 
         $this->router->addRoute(
             (new RouteUrl('/wallet/v1/{network}/{address}/nonce', function (string $network, string $address) {
+                $host = preg_replace('/^www\./', '', $this->router->getRequest()->getHost());
                 return call_user_func(
                     $this->callback,
                     array_merge(
@@ -1224,7 +1223,7 @@ class RouterFactory
                                 ->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
                         $this->router->addRoute(
-                            (new RouteUrl('/datastream/template/' . $host, function () {
+                            (new RouteUrl('/datastream/template/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()), function () {
                                 return call_user_func(
                                     $this->callback,
                                     array_merge(
