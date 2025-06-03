@@ -52,6 +52,8 @@ class RouterFactory
         $this->router = (new Router())
             ->setRenderMultipleRoutes(false);
         $this->requestBody = (array)json_decode(file_get_contents('php://input'), true);
+        $host = $this->router->getRequest()->getHost();
+        $host = preg_replace('/^www\./', '', $host);
 
         if (!empty($url)) {
             $this->router->getRequest()
@@ -97,8 +99,8 @@ class RouterFactory
                             $address,
                             'address' => $address,
                             '--domain',
-                            $this->router->getRequest()->getHost(),
-                            'domain' => $this->router->getRequest()->getHost(),
+                            $host,
+                            'domain' => $host,
                         ],
                         $this->applyIfNotEmpty($this->requestBody, [
                             'text' => 'text',
@@ -1222,7 +1224,7 @@ class RouterFactory
                                 ->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
                         $this->router->addRoute(
-                            (new RouteUrl('/datastream/template/' . $this->router->getRequest()->getHost(), function () {
+                            (new RouteUrl('/datastream/template/' . $host, function () {
                                 return call_user_func(
                                     $this->callback,
                                     array_merge(
@@ -1248,6 +1250,32 @@ class RouterFactory
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+                        $this->router->addRoute(
+                            (new RouteUrl('/openai-assistant', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'openai-assistant',
+                                            $this->requestBody['message'] ?? [],
+                                        ],
+                                        $_POST
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+                        $this->router->addRoute(
+                            (new RouteUrl('/openai-assistant', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'openai-assistant'
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
                         foreach (
                             [

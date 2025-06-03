@@ -276,6 +276,9 @@ class AesirxAnalyticsCli {
 			if ( $command[0] == 'datastream' ) {
 				$class = new \AesirX_Analytics_Get_Datastream_Template();
 			}
+			if ( $command[0] == 'openai-assistant' ) {
+				$class = new \AesirX_Analytics_Get_Openai_Assistant();
+			}
 		} else if ( $method == "POST" ) {
 			if ( $command[0] == 'visitor' ) {
 
@@ -354,6 +357,9 @@ class AesirxAnalyticsCli {
 			}
 			if ( $command[0] == 'disabled-block-domains' ) {
 				$class = new \AesirX_Analytics_Store_Disabled_Block_Domains();
+			}
+			if ( $command[0] == 'openai-assistant' ) {
+				$class = new \AesirX_Analytics_Openai_Assistant();
 			}
 
 		} else if ( $method == "PUT" ) {
