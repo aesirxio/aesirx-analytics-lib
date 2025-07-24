@@ -279,6 +279,9 @@ class AesirxAnalyticsCli {
 			if ( $command[0] == 'openai-assistant' ) {
 				$class = new \AesirX_Analytics_Get_Openai_Assistant();
 			}
+			if ( $command[0] == 'statement' ) {
+				$class = new \AesirX_Analytics_Get_Statement();
+			}
 		} else if ( $method == "POST" ) {
 			if ( $command[0] == 'visitor' ) {
 

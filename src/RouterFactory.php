@@ -1276,6 +1276,18 @@ class RouterFactory
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
+                        $this->router->addRoute(
+                            (new RouteUrl('/statement', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'statement'
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
                         foreach (
                             [
                                 'visits',
