@@ -1250,6 +1250,90 @@ class RouterFactory
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
                         );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/utm/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()), function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'utm',
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/utm/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()) . '/{id}', function (string $id) {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'utm',
+                                            $id,
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/utm', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'utm',
+                                        ],
+                                        $_POST
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/attribute_date_utm', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'attribute_date_utm'
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/unique_utm_links', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'unique_utm_links'
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/unique_utm_value_type', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'unique_utm_value_type'
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
                         $this->router->addRoute(
                             (new RouteUrl('/openai-assistant', function () {
                                 return call_user_func(
