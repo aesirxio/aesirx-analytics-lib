@@ -1280,8 +1280,14 @@ class RouterFactory
                             }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
 
-                        $this->router->addRoute(
+                       $this->router->addRoute(
                             (new RouteUrl('/datastream/utm', function () {
+                                $raw = file_get_contents('php://input');
+                                $json = json_decode($raw, true);
+
+                                if (!is_array($json)) {
+                                    $json = [];
+                                }
                                 return call_user_func(
                                     $this->callback,
                                     array_merge(
@@ -1289,7 +1295,7 @@ class RouterFactory
                                             'datastream',
                                             'utm',
                                         ],
-                                        $_POST
+                                        $json
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
