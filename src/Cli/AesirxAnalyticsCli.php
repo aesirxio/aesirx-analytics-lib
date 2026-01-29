@@ -280,7 +280,28 @@ class AesirxAnalyticsCli {
 			}
 
 			if ( $command[0] == 'datastream' ) {
-				$class = new \AesirX_Analytics_Get_Datastream_Template();
+				switch ( $command[1] ) {
+					case 'template':
+						$class = new \AesirX_Analytics_Get_Datastream_Template();
+						break;
+
+					case 'utm':
+						$class = new \AesirX_Analytics_Get_Datastream_UTM($command[2] ?? null);
+						break;
+
+					default:
+						$class = new \AesirX_Analytics_Not_Found();
+						break;
+				}
+			}
+			if ( $command[0] == 'attribute_date_utm' ) {
+				$class = new \AesirX_Analytics_Get_Attribute_Date_UTM();
+			}
+			if ( $command[0] == 'unique_utm_links' ) {
+				$class = new \AesirX_Analytics_Get_Unique_UTM_Links();
+			}
+			if ( $command[0] == 'unique_utm_value_type' ) {
+				$class = new \AesirX_Analytics_Get_Unique_UTM_Value_Type();
 			}
 			if ( $command[0] == 'openai-assistant' ) {
 				$class = new \AesirX_Analytics_Get_Openai_Assistant();
@@ -362,7 +383,19 @@ class AesirxAnalyticsCli {
 			}
 
 			if ( $command[0] == 'datastream' ) {
-				$class = new \AesirX_Analytics_Store_Datastream_Template();
+				switch ( $command[1] ) {
+					case 'template':
+						$class = new \AesirX_Analytics_Store_Datastream_Template();
+						break;
+
+					case 'utm':
+						$class = new \AesirX_Analytics_Store_Datastream_UTM();
+						break;
+
+					default:
+						$class = new \AesirX_Analytics_Not_Found();
+						break;
+				}
 			}
 			if ( $command[0] == 'disabled-block-domains' ) {
 				$class = new \AesirX_Analytics_Store_Disabled_Block_Domains();
