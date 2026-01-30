@@ -89,6 +89,10 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Get_Attribute_Value_Date();
 						break;
 
+					case 'attribute-date-utm':
+						$class = new \AesirX_Analytics_Get_Attribute_Value_Date_UTM();
+						break;
+
 					case 'channels':
 						$class = new \AesirX_Analytics_Get_All_Channels();
 						break;
@@ -286,10 +290,14 @@ class AesirxAnalyticsCli {
 						break;
 
 					case 'utm':
-						$class = new \AesirX_Analytics_Get_Datastream_UTM($command[2] ?? null);
+						if($command[3]) {
+							$class = new \AesirX_Analytics_Get_Datastream_UTM_Detail();
+						} else {
+							$class = new \AesirX_Analytics_Get_Datastream_UTM();
+						}
 						break;
 
-					default:
+						default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
 				}
@@ -428,6 +436,17 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Revoke_Consent_Level6();
 						break;
 
+					default:
+						$class = new \AesirX_Analytics_Not_Found();
+						break;
+				}
+			}
+		} else if ( $method == "DELETE" ) {
+			if($command[0] == 'datastream') {
+				switch($command[1]) {
+					case 'utm':
+						$class = new \AesirX_Analytics_Delete_Datastream_UTM();
+						break;
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;

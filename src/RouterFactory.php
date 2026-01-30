@@ -1259,6 +1259,7 @@ class RouterFactory
                                         [
                                             'datastream',
                                             'utm',
+                                            preg_replace('/^www\./', '', $this->router->getRequest()->getHost()),
                                         ],
                                     )
                                 );
@@ -1273,6 +1274,7 @@ class RouterFactory
                                         [
                                             'datastream',
                                             'utm',
+                                            preg_replace('/^www\./', '', $this->router->getRequest()->getHost()),
                                             $id,
                                         ],
                                     )
@@ -1280,13 +1282,10 @@ class RouterFactory
                             }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
 
-                       $this->router->addRoute(
+                        $this->router->addRoute(
                             (new RouteUrl('/datastream/utm', function () {
-                                $raw = file_get_contents('php://input');
-                                $json = json_decode($raw, true);
-
-                                if (!is_array($json)) {
-                                    $json = [];
+                                if (!is_array($this->requestBody)) {
+                                    $this->requestBody = [];
                                 }
                                 return call_user_func(
                                     $this->callback,
@@ -1295,10 +1294,28 @@ class RouterFactory
                                             'datastream',
                                             'utm',
                                         ],
-                                        $json
+                                        $this->requestBody
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+
+                       $this->router->addRoute(
+                            (new RouteUrl('/datastream/utm', function () {
+                                if (!is_array($this->requestBody)) {
+                                    $this->requestBody = [];
+                                }
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'utm',
+                                        ],
+                                        $this->requestBody
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_DELETE])
                         );
 
                         $this->router->addRoute(
@@ -1396,6 +1413,7 @@ class RouterFactory
                                 'events',
                                 'events-name-type',
                                 'attribute-date',
+                                'attribute-date-utm',
                                 'user-types',
                                 'outlinks',
                                 'channels',
