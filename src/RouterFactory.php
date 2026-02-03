@@ -1319,26 +1319,14 @@ class RouterFactory
                         );
 
                         $this->router->addRoute(
-                            (new RouteUrl('/attribute_date_utm', function () {
-                                return call_user_func(
-                                    $this->callback,
-                                    array_merge(
-                                        [
-                                            'attribute_date_utm'
-                                        ],
-                                    )
-                                );
-                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
-                        );
-
-                        $this->router->addRoute(
                             (new RouteUrl('/unique_utm_links', function () {
                                 return call_user_func(
                                     $this->callback,
                                     array_merge(
                                         [
-                                            'unique_utm_links'
+                                            'unique_utm_links',
                                         ],
+                                        $this->applyListParams(null,null)
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_GET])
@@ -1352,11 +1340,93 @@ class RouterFactory
                                         [
                                             'unique_utm_value_type'
                                         ],
+                                        $this->applyListParams(null,null)
                                     )
                                 );
                             }))->setRequestMethods([Request::REQUEST_TYPE_GET])
                         );
 
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/tag_event/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()), function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'tag_event',
+                                            preg_replace('/^www\./', '', $this->router->getRequest()->getHost()),
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/tag_event/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()) . '/{id}', function (string $id) {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'tag_event',
+                                            preg_replace('/^www\./', '', $this->router->getRequest()->getHost()),
+                                            $id,
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/tag_event', function () {
+                                if (!is_array($this->requestBody)) {
+                                    $this->requestBody = [];
+                                }
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'tag_event',
+                                        ],
+                                        $this->requestBody
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+
+                       $this->router->addRoute(
+                            (new RouteUrl('/datastream/tag_event', function () {
+                                if (!is_array($this->requestBody)) {
+                                    $this->requestBody = [];
+                                }
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'tag_event',
+                                        ],
+                                        $this->requestBody
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_DELETE])
+                        );
+
+                        $this->router->addRoute(
+                            (new RouteUrl('/unique_event_names', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'unique_event_names',
+                                        ],
+                                        $this->applyListParams(null,null)
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+                      
                         $this->router->addRoute(
                             (new RouteUrl('/openai-assistant', function () {
                                 return call_user_func(
@@ -1413,7 +1483,9 @@ class RouterFactory
                                 'events',
                                 'events-name-type',
                                 'attribute-date',
+                                'attribute-utm',
                                 'attribute-date-utm',
+                                'attribute-date-tag-event',
                                 'user-types',
                                 'outlinks',
                                 'channels',

@@ -89,8 +89,16 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Get_Attribute_Value_Date();
 						break;
 
+					case 'attribute-utm':
+						$class = new \AesirX_Analytics_Get_Attribute_Value_UTM();
+						break;
+
 					case 'attribute-date-utm':
 						$class = new \AesirX_Analytics_Get_Attribute_Value_Date_UTM();
+						break;
+
+					case 'attribute-date-tag-event':
+						$class = new \AesirX_Analytics_Get_Attribute_Value_Date_Tag_Event();
 						break;
 
 					case 'channels':
@@ -297,19 +305,27 @@ class AesirxAnalyticsCli {
 						}
 						break;
 
-						default:
+					case 'tag_event':
+						if($command[3]) {
+							$class = new \AesirX_Analytics_Get_Datastream_Tag_Event_Detail();
+						} else {
+							$class = new \AesirX_Analytics_Get_Datastream_Tag_Event();
+						}
+						break;
+
+					default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
 				}
-			}
-			if ( $command[0] == 'attribute_date_utm' ) {
-				$class = new \AesirX_Analytics_Get_Attribute_Date_UTM();
 			}
 			if ( $command[0] == 'unique_utm_links' ) {
 				$class = new \AesirX_Analytics_Get_Unique_UTM_Links();
 			}
 			if ( $command[0] == 'unique_utm_value_type' ) {
 				$class = new \AesirX_Analytics_Get_Unique_UTM_Value_Type();
+			}
+			if ( $command[0] == 'unique_event_names' ) {
+				$class = new \AesirX_Analytics_Get_Unique_Event_Names();
 			}
 			if ( $command[0] == 'openai-assistant' ) {
 				$class = new \AesirX_Analytics_Get_Openai_Assistant();
@@ -399,6 +415,10 @@ class AesirxAnalyticsCli {
 					case 'utm':
 						$class = new \AesirX_Analytics_Store_Datastream_UTM();
 						break;
+					
+					case 'tag_event':
+						$class = new \AesirX_Analytics_Store_Datastream_Tag_Event();
+						break;
 
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
@@ -447,6 +467,11 @@ class AesirxAnalyticsCli {
 					case 'utm':
 						$class = new \AesirX_Analytics_Delete_Datastream_UTM();
 						break;
+					
+					case 'tag_event':
+						$class = new \AesirX_Analytics_Delete_Datastream_Tag_Event();
+						break;
+
 					default:
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
