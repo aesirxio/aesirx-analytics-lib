@@ -297,6 +297,10 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Get_Datastream_Template();
 						break;
 
+					case 'setting':
+						$class = new \AesirX_Analytics_Get_Datastream_Setting();
+						break;
+
 					case 'utm':
 						if($command[3]) {
 							$class = new \AesirX_Analytics_Get_Datastream_UTM_Detail();
@@ -410,6 +414,10 @@ class AesirxAnalyticsCli {
 				switch ( $command[1] ) {
 					case 'template':
 						$class = new \AesirX_Analytics_Store_Datastream_Template();
+						break;
+
+					case 'setting':
+						$class = new \AesirX_Analytics_Store_Datastream_Setting();
 						break;
 
 					case 'utm':

@@ -1252,6 +1252,35 @@ class RouterFactory
                         );
 
                         $this->router->addRoute(
+                            (new RouteUrl('/datastream/setting/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()), function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'setting',
+                                        ],
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_GET])
+                        );
+                
+                        $this->router->addRoute(
+                            (new RouteUrl('/datastream/setting', function () {
+                                return call_user_func(
+                                    $this->callback,
+                                    array_merge(
+                                        [
+                                            'datastream',
+                                            'setting',
+                                        ],
+                                        $_POST
+                                    )
+                                );
+                            }))->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
+
+                        $this->router->addRoute(
                             (new RouteUrl('/datastream/utm/' . preg_replace('/^www\./', '', $this->router->getRequest()->getHost()), function () {
                                 return call_user_func(
                                     $this->callback,
