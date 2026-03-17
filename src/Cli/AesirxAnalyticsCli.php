@@ -15,22 +15,16 @@ use Drupal\Core\Database\Database;
 use RuntimeException;
 use AesirxAnalytics\AesirxAnalyticsMysqlHelper;
 
-if (defined('JPATH_PLUGINS')) {
-    // Joomla detected
-    if(defined('AESIRX_PLUGIN_BASE_PATH')) {
-        $folderPath = AESIRX_PLUGIN_BASE_PATH . '/src/Mysql';
-    } else {
-        $folderPath = JPATH_PLUGINS . '/system/aesirx_analytics/src/Mysql';
-    }
-} elseif (defined('WP_PLUGIN_DIR')) {
-    // WordPress detected
-    if(defined('AESIRX_PLUGIN_BASE_PATH')) {
-        $folderPath = AESIRX_PLUGIN_BASE_PATH . '/src/Mysql';
-    } else {
-        $folderPath = WP_PLUGIN_DIR . '/aesirx-analytics/src/Mysql';
-    }
+if ( defined( 'JPATH_PLUGINS' ) ) {
+	// Joomla detected
+	$analyticsFolder = JPATH_PLUGINS . '/system/aesirx_analytics/src/Mysql';
+	$consentFolder   = JPATH_PLUGINS . '/system/aesirx_consent/src/Mysql';
+} elseif ( defined( 'WP_PLUGIN_DIR' ) ) {
+	// WordPress detected
+	$analyticsFolder = WP_PLUGIN_DIR . '/aesirx-analytics/src/Mysql';
+	$consentFolder   = WP_PLUGIN_DIR . '/aesirx-consent/src/Mysql';
 }
-
+$folderPath = is_dir( $analyticsFolder ) ? $analyticsFolder : $consentFolder;
 if ( is_dir( $folderPath ) ) {
 	$files = glob( $folderPath . '/*.php' );
 	foreach ( $files as $file ) {
@@ -439,6 +433,9 @@ class AesirxAnalyticsCli {
 			if ( $command[0] == 'openai-assistant' ) {
 				$class = new \AesirX_Analytics_Openai_Assistant();
 			}
+			if ( $command[0] == 'reject' ) {
+				$class = new \AesirX_Analytics_Reject_Consent();
+			}
 
 		} else if ( $method == "PUT" ) {
 			if ( $command[0] == 'revoke' ) {
@@ -468,9 +465,6 @@ class AesirxAnalyticsCli {
 						$class = new \AesirX_Analytics_Not_Found();
 						break;
 				}
-			}
-			if ( $command[0] == 'reject' ) {
-				$class = new \AesirX_Analytics_Reject_Consent();
 			}
 		} else if ( $method == "DELETE" ) {
 			if($command[0] == 'datastream') {
