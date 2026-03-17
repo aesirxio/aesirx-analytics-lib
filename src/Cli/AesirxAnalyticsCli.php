@@ -469,6 +469,9 @@ class AesirxAnalyticsCli {
 						break;
 				}
 			}
+			if ( $command[0] == 'reject' ) {
+				$class = new \AesirX_Analytics_Reject_Consent();
+			}
 		} else if ( $method == "DELETE" ) {
 			if($command[0] == 'datastream') {
 				switch($command[1]) {

@@ -661,6 +661,21 @@ class RouterFactory
 				                    }
 			                    )
 	                    );
+                        $this->router->addRoute(
+                            (new RouteUrl(
+                                '/reject/{visitor_uuid}',
+                                function (string $visitor_uuid) {
+                                    return call_user_func($this->callback, [
+                                        'reject',
+                                        '--visitor-uuid',
+                                        $visitor_uuid,
+                                        'visitor_uuid' => $visitor_uuid,
+                                    ]);
+                                }
+                            ))
+                                ->setWhere(['visitor_uuid' => $this->uuidMatch])
+                                ->setRequestMethods([Request::REQUEST_TYPE_POST])
+                        );
                     }
                 )
         );
